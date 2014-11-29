@@ -1,6 +1,6 @@
 <?php
     /**
-     * self
+     * ImageAffineMatrix
      * Copyright (C) 2013-2014 Vladimir P.
      * 
      * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -114,7 +114,9 @@
          * @return ImageAffineMatrix
          */
         public function rotate($a) {
-            $this->multiply(new self(cos($a), sin($a), -sin($a), cos($a), 0, 0));
+            $cosA = cos($a);
+            $sinA = sin($a);
+            $this->multiply(new self($cosA, $sinA, -$sinA, $cosA, 0, 0));
             return $this;
         }
         
@@ -154,17 +156,17 @@
         /**
          * Multiplies this matrix by another matrix.
          *
-         * @param ImageAffineMatrix $matrix The other matrix.
+         * @param ImageAffineMatrix $other The other matrix.
          * @return ImageAffineMatrix
          */
-        public function multiply(self $matrix) {
+        public function multiply(self $other) {
             $this->setArray([
-                $this->a * $matrix->getA() + $this->c * $matrix->getB(),
-                $this->b * $matrix->getA() + $this->d * $matrix->getB(),
-                $this->a * $matrix->getC() + $this->c * $matrix->getD(),
-                $this->b * $matrix->getC() + $this->d * $matrix->getD(),
-                $this->a * $matrix->getTx() + $this->c * $matrix->getTy() + $this->tx,
-                $this->b * $matrix->getTx() + $this->d * $matrix->getTy() + $this->ty
+                $this->a * $other->getA() + $this->c * $other->getB(),
+                $this->b * $other->getA() + $this->d * $other->getB(),
+                $this->a * $other->getC() + $this->c * $other->getD(),
+                $this->b * $other->getC() + $this->d * $other->getD(),
+                $this->a * $other->getTx() + $this->c * $other->getTy() + $this->tx,
+                $this->b * $other->getTx() + $this->d * $other->getTy() + $this->ty
             ]);
             return $this;
         }
